@@ -5,25 +5,33 @@ import './../../screen/favourites_screen/favourites_screen.dart';
 
 class TabScreen extends StatefulWidget {
   static const screenName = "/";
-  TabScreen();
+  final Function setFilters;
+  final List<String> favourites;
+  TabScreen({this.setFilters, this.favourites});
 
   @override
   _TabScreenState createState() => _TabScreenState();
 }
 
 class _TabScreenState extends State<TabScreen> {
-  final List<Map<String, Object>> _pages = [
-    {
-      "title": "Meal App",
-      "widget": CategoriesScreen(),
-    },
-    {
-      "title": "My Favourites",
-      "widget": FavouritesScreen(),
-    },
-  ];
+  List<Map<String, Object>> _pages;
 
   int _selectedPageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      {
+        "title": "Meal App",
+        "widget": CategoriesScreen(),
+      },
+      {
+        "title": "My Favourites",
+        "widget": FavouritesScreen(favourites: widget.favourites),
+      },
+    ];
+  }
 
   void _selectPage(int index) {
     setState(() {
@@ -39,7 +47,7 @@ class _TabScreenState extends State<TabScreen> {
           _pages[_selectedPageIndex]["title"],
         ),
       ),
-      drawer: MainDrawer(),
+      drawer: MainDrawer(widget.setFilters),
       body: _pages[_selectedPageIndex]["widget"],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,

@@ -3,6 +3,10 @@ import './screen/tab_screen/tab_screen.dart';
 import './screen/filter_screen/filter_screen.dart';
 
 class MainDrawer extends StatelessWidget {
+  final Function filter;
+
+  MainDrawer(this.filter);
+
   Widget _buildListTile({String title, IconData icon, Function onTap}) {
     return ListTile(
       onTap: onTap,
@@ -52,7 +56,8 @@ class MainDrawer extends StatelessWidget {
               title: "Filters",
               onTap: () {
                 Navigator.of(context)
-                    .pushReplacementNamed(FilterScreen.screenName);
+                    .pushReplacementNamed(FilterScreen.screenName)
+                    .then((_) => filter());
               }),
         ],
       ),

@@ -9,7 +9,6 @@ class MealItem extends StatelessWidget {
   final String id;
   final int duration;
   final Complexity complexity;
-  final Function(String) removeItem;
 
   MealItem({
     @required this.title,
@@ -18,7 +17,6 @@ class MealItem extends StatelessWidget {
     @required this.id,
     @required this.duration,
     @required this.complexity,
-    @required this.removeItem,
   });
 
   String get complexityText {
@@ -51,11 +49,7 @@ class MealItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => {
-        Navigator.of(context)
-            .pushNamed(MealScreen.screenName, arguments: id)
-            .then((result) => {
-                  if (result != null) {removeItem(result)}
-                })
+        Navigator.of(context).pushNamed(MealScreen.screenName, arguments: id)
       },
       child: Card(
         elevation: 4,

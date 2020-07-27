@@ -4,6 +4,14 @@ import './../../data/dummy_data.dart';
 class MealScreen extends StatelessWidget {
   static const screenName = '/meal';
 
+  final Function(String) toggleFav;
+  final List<String> favourites;
+
+  MealScreen(
+    this.toggleFav,
+    this.favourites,
+  );
+
   List<Widget> buildSection(
       {BuildContext context,
       String title,
@@ -36,13 +44,15 @@ class MealScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context).settings.arguments as String;
     final meal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
+    final isFav = favourites.contains(mealId);
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-        meal.title,
-        style: TextStyle(fontSize: 18),
-      )),
+        title: Text(
+          meal.title,
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),
@@ -88,9 +98,9 @@ class MealScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
+        child: Icon(isFav ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
-          Navigator.of(context).pop(mealId);
+          toggleFav(meal.id);
         },
       ),
     );
